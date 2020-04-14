@@ -1,7 +1,7 @@
 package com.shun.favoriteindex.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.shun.favoriteindex.util.encrypt.FiEncrypt;
+import com.shun.favoriteindex.util.FiEncrypt;
 
 /**
  * 数据源

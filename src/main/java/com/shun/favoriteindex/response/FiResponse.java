@@ -112,4 +112,12 @@ public class FiResponse implements Cloneable {
     private void setSuccess(boolean success) {
         this.success = success;
     }
+
+    @Override
+    public String toString() {
+        return "FiResponse{" +
+                "msg=" + msg +
+                ", success=" + success +
+                '}';
+    }
 }

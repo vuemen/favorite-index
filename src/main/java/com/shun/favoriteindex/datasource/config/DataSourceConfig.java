@@ -3,7 +3,7 @@ package com.shun.favoriteindex.datasource.config;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import com.shun.favoriteindex.datasource.FiDataSource;
-import com.shun.favoriteindex.util.encrypt.FiEncrypt;
+import com.shun.favoriteindex.util.FiEncrypt;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;

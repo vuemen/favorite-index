@@ -1,4 +1,4 @@
-package com.shun.favoriteindex.util.encrypt;
+package com.shun.favoriteindex.util;
 
 
 import sun.misc.BASE64Decoder;
