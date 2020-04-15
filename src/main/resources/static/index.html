@@ -6,6 +6,9 @@
     <title>favorite-index</title>
 </head>
 <body>
-    favorite-index
+    <form action="/user/sendVerificationCode", method="POST">
+        <input type="email" name="email" />
+        <input type="submit" value="发送验证码">
+    </form>
 </body>
 </html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shun.favoriteindex.user.mapper.UserMapper">
+
+    <resultMap id="userMap" type="com.shun.favoriteindex.user.entity.User">
+        <id property="userId" column="USER_ID" />
+        <result column="email" property="EMAIL" />
+        <result column="password" property="PASSWORD" />
+        <result column="headImg" property="HEAD_IMG" />
+        <result column="createTime" property="CREATE_TIME" />
+        <result column="updateTime" property="UPDATE_TIME" />
+    </resultMap>
+
+    <insert id="insertRegisterUser">
+        INSERT INTO FI_REGISTER_INFO
+        (EMAIL, VERIFICATION_CODE, EFFECT_START_TIME, EFFECT_END_TIME)
+        VALUES
+        (
+            #{email, jdbcType=VARCHAR},
+            #{verificationCode, jdbcType=VARCHAR},
+            #{effectStartTime, jdbcType=NUMERIC},
+            #{effectEndTime, jdbcType=NUMERIC}
+        )
+    </insert>
+
+    <update id="updateRegisterUser">
+        UPDATE FI_REGISTER_INFO
+        <set>
+            <if test="verificationCode != null and verificationCode != ''">
+                VERIFICATION_CODE = #{verificationCode, jdbcType=VARCHAR},
+            </if>
+            <if test="effectStartTime != null">
+                EFFECT_START_TIME =  #{effectStartTime, jdbcType=NUMERIC},
+            </if>
+            <if test="effectStartTime != null">
+                EFFECT_END_TIME = #{effectEndTime, jdbcType=NUMERIC}
+            </if>
+        </set>
+        <where>
+            EMAIL = #{email, jdbcType=VARCHAR}
+        </where>
+    </update>
+
+    <delete id="deleteRegisterUser" parameterType="String">
+        DELETE FROM FI_REGISTER_INFO
+        <where>
+            EMAIL = #{email, jdbcType=VARCHAR}
+        </where>
+    </delete>
+
+    <select id="getUserByEmail" resultMap="userMap" parameterType="String">
+        SELECT USER_ID, EMAIL, PASSWORD, HEAD_IMG, CREATE_TIME, UPDATE_TIME FROM FI_USER_INFO
+        <where>
+            EMAIL = #{email, jdbcType=VARCHAR}
+        </where>
+    </select>
+
+</mapper>

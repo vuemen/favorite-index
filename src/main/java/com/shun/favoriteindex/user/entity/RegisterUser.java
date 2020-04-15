@@ -8,7 +8,7 @@ public class RegisterUser {
     /**
      * 验证码有效持续时间 5分钟
      */
-    public static final int EFFECT_DURATION_TIME = 1000 * 60 * 5;
+    public static final Long EFFECT_DURATION_TIME = 1000L * 60 * 5;
 
     /**
      * 邮箱
@@ -23,12 +23,12 @@ public class RegisterUser {
     /**
      * 有效开始时间
      */
-    private String effectStartTime;
+    private Long effectStartTime;
 
     /**
      * 有效结束时间
      */
-    private String effectEndTime;
+    private Long effectEndTime;
 
     public String getEmail() {
         return email;
@@ -46,19 +46,19 @@ public class RegisterUser {
         this.verificationCode = verificationCode;
     }
 
-    public String getEffectStartTime() {
+    public Long getEffectStartTime() {
         return effectStartTime;
     }
 
-    public void setEffectStartTime(String effectStartTime) {
+    public void setEffectStartTime(Long effectStartTime) {
         this.effectStartTime = effectStartTime;
     }
 
-    public String getEffectEndTime() {
+    public Long getEffectEndTime() {
         return effectEndTime;
     }
 
-    public void setEffectEndTime(String effectEndTime) {
+    public void setEffectEndTime(Long effectEndTime) {
         this.effectEndTime = effectEndTime;
     }
 
