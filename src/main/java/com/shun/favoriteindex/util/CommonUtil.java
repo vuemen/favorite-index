@@ -9,13 +9,20 @@ import java.io.FileReader;
  */
 public class CommonUtil {
 
+    public static final String[] LETTER = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+            "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+
     /**
      * 生成验证码
-     *
+     * @param codeLength 验证码长度
      * @return
      */
-    public static String generateVerificationCode() {
-        return null;
+    public static String generateVerificationCode(int codeLength) {
+        StringBuilder codeBuilder = new StringBuilder();
+        for (int i = 0; i < codeLength; i++) {
+            codeBuilder.append(LETTER[(int) ((Math.random()) * 26)]);
+        }
+        return codeBuilder.toString();
     }
 
     /**
