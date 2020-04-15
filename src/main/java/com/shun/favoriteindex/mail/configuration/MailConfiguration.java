@@ -1,4 +1,4 @@
-package com.shun.favoriteindex.mail.config;
+package com.shun.favoriteindex.mail.configuration;
 
 import com.shun.favoriteindex.util.FiEncrypt;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
@@ -15,7 +15,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableConfigurationProperties(MailProperties.class)
-public class MailConfig {
+public class MailConfiguration {
 
     @Bean
     public JavaMailSenderImpl mailSender(MailProperties properties) {

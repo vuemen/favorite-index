@@ -1,4 +1,4 @@
-package com.shun.favoriteindex.datasource.config;
+package com.shun.favoriteindex.datasource.configuration;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
@@ -17,7 +17,7 @@ import java.util.Map;
  * 数据源相关配置
  */
 @Configuration
-public class DataSourceConfig {
+public class DataSourceConfiguration {
 
     private static String USERNAME_DRUID = "admin";
     private static String PASSWORD_DRUID = "3P97uUVDU9g=";
