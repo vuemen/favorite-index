@@ -43,7 +43,7 @@ class FavoriteIndexApplicationTests {
 
     @Test
     void sendEMail() {
-        mailService.sendMail( "测试邮件主题", "测试邮件内容", "xxxxxxxx@xxxxx.com");
+        mailService.sendMail( "测试邮件主题", "测试邮件内容", "xxxxxxxx@xxx.com");
     }
 
 }

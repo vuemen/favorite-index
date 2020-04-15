@@ -36,6 +36,7 @@ public class FiEncrypt {
             key = generator.generateKey();
             generator = null;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -61,6 +62,7 @@ public class FiEncrypt {
             // byte[] to encode好的String并返回
             return base64encoder.encode(doFinal);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -86,6 +88,7 @@ public class FiEncrypt {
             //返回解密之后的信息
             return new String(doFinal, CHARSET);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

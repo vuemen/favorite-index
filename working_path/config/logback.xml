@@ -15,6 +15,16 @@
     <property name="maxHistory" value="30" />
 
     <appender name="ibconsole" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 非INFO级别日志，全部过滤掉 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 过滤掉所有低于INFO级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
         <encoder>
             <pattern>%date [Method=%X{method}, URI=%X{requestURIWithQueryString}, IP=%X{remoteAddr}] [%level] [%logger] - %msg%n</pattern>
         </encoder>

@@ -14,6 +14,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -52,11 +54,16 @@ public class IMailServiceImpl implements IMailService {
             //发送
             mailSender.send(message);
             //日志信息
+            List<String> recvList = new ArrayList<String>();
+            for (int i = 0; i < recvs.length; i++) {
+                recvList.add(recvs[i]);
+            }
             logger.info(MessageFormat.format
-                    ("\n调用邮件发送接口[IMailService.sendMail]成功，邮件已经发送。收件人{0}，邮件主题{1}，邮件内容{2}",
-                            recvs, subject, content));
+                    ("\n调用邮件发送接口[IMailService.sendMail]成功，邮件已经发送。收件人：{0}，邮件主题：{1}，邮件内容：{2}",
+                            recvList.toString(), subject, content));
         } catch (MessagingException e) {
             logger.error("调用邮件发送接口[IMailService.sendMail]时发生异常！", e);
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -88,11 +95,17 @@ public class IMailServiceImpl implements IMailService {
             //发送
             mailSender.send(message);
             //日志信息
+            List<String> recvList = new ArrayList<String>();
+            for (int i = 0; i < recvs.length; i++) {
+                recvList.add(recvs[i]);
+            }
             logger.info(MessageFormat.format
-                    ("\n调用邮件发送接口[IMailService.sendAttachmentsMail]成功，邮件已经发送。收件人{0}，邮件主题{1}，附件路径{2}，邮件内容{3}",
-                            recvs, subject, filePaths.toString(), content));
+                    ("\n调用邮件发送接口[IMailService.sendAttachmentsMail]成功，邮件已经发送。收件人：{0}，邮件主题：{1}，附件路径：{2}，邮件内容：{3}",
+                            recvList.toString(), subject, filePaths.toString(), content));
         } catch (MessagingException e) {
             logger.error("调用邮件发送接口[IMailService.sendAttachmentsMail]时发生异常！", e);
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }
