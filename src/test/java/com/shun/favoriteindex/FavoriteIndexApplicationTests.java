@@ -1,17 +1,17 @@
 package com.shun.favoriteindex;
 
+import com.shun.favoriteindex.mail.IMailService;
 import com.shun.favoriteindex.response.FiResponse;
 import com.shun.favoriteindex.util.FiEncrypt;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.javamail.JavaMailSender;
 
 @SpringBootTest
 class FavoriteIndexApplicationTests {
 
     @Autowired
-    private JavaMailSender mailSender;
+    IMailService mailService;
 
     @Test
     void contextLoads() {
@@ -19,7 +19,7 @@ class FavoriteIndexApplicationTests {
 
     @Test
     void encrypt() {
-        System.out.println(FiEncrypt.encrypt("123456"));
+        System.out.println(FiEncrypt.encrypt("qwlnezqvicafbdac"));
     }
 
     @Test
@@ -43,7 +43,7 @@ class FavoriteIndexApplicationTests {
 
     @Test
     void sendEMail() {
-
+        mailService.sendMail( "测试邮件主题", "测试邮件内容", "xxxxxxxx@xxxxx.com");
     }
 
 }

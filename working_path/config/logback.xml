@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+
+   	<contextName>FI-LOG</contextName>
+
+    <!-- 定义日志文件 输出位置 -->
+
+    <property name="common_log_dir" value="${WORKING_PATH}/logs/common" />
+
+    <property name="mail_log_dir" value="${WORKING_PATH}/logs/mail" />
+
+    <property name="pattern" value="%date [Method=%X{method}, URI=%X{requestURIWithQueryString}, IP=%X{remoteAddr}] [%level] [%logger]-%msg%n" />
+
+    <!-- 日志最大的历史 30天 -->
+    <property name="maxHistory" value="30" />
+
+    <appender name="ibconsole" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date [Method=%X{method}, URI=%X{requestURIWithQueryString}, IP=%X{remoteAddr}] [%level] [%logger] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--*******************************common_log开始***************************************************** -->
+    <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 RollingFileAppender -->
+    <appender name="common_log"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 支持多JVM同时操作同一个日志文件 -->
+         <prudent>true</prudent>
+        <!-- 最常用的滚动策略，它根据时间来制定滚动策略.既负责滚动也负责出发滚动 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志输出位置 可相对、和绝对路径 -->
+            <fileNamePattern>
+            	${common_log_dir}/%d{yyyy-MM-dd}/common_log%i.log
+            </fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+             <!-- 按时间回滚的同时，按文件大小来回滚 -->
+             <timeBasedFileNamingAndTriggeringPolicy
+                  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                  <maxFileSize>2MB</maxFileSize>
+             </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+		<!--  日志输出格式 -->
+        <encoder>
+            <pattern>${pattern}</pattern>
+        </encoder>
+
+    </appender>
+
+    <!-- logger级别   DEBUG -->
+    <logger name="common" additivity="false" level="debug">
+        <appender-ref ref="common_log" />
+    </logger>
+
+    <!--*******************************common_log结束***************************************************** -->
+
+    <!--*******************************email_log开始***************************************************** -->
+    <!-- ERROR级别日志 -->
+    <!-- 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 RollingFileAppender -->
+    <appender name="mail_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 支持多JVM同时操作同一个日志文件 -->
+        <prudent>true</prudent>
+        <!-- 最常用的滚动策略，它根据时间来制定滚动策略.既负责滚动也负责出发滚动 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志输出位置 可相对、和绝对路径 -->
+            <fileNamePattern>
+                ${mail_log_dir}/%d{yyyy-MM-dd}/mail_log%i.log
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <!-- 按时间回滚的同时，按文件大小来回滚 -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>2MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <!--  日志输出格式 -->
+        <encoder>
+            <pattern>${pattern}</pattern>
+        </encoder>
+
+    </appender>
+
+    <logger name="org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver" level="debug" />
+    <logger name="org.springframework" level="error" />
+    <logger name="org.mybatis" level="error" />
+    <logger name="org.apache" level="info" />
+    <logger name="druid.sql.DataSource" level="info" />
+    <logger name="java.sql" level="info" />
+
+    <logger name="com.shun.favoriteindex.mail" additivity="false" >
+        <level value="debug" />
+        <appender-ref ref="mail_log" />
+    </logger>
+
+	<!-- 根logger的设置-->
+	<root>
+		<level value="debug" />
+        <appender-ref ref="common_log" />
+        <appender-ref ref="ibconsole" />
+	</root>
+
+</configuration>
