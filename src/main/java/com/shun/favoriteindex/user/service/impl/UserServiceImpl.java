@@ -41,7 +41,8 @@ public class UserServiceImpl implements UserService {
 
         try {
             //发送邮件
-            String content = MessageFormat.format(CommonUtil.readFileContent(REGISTER_EMAIL_CONTENT_TEMPLATE_FILEPATH),
+            String content = MessageFormat.format
+                    (CommonUtil.readFileContent(REGISTER_EMAIL_CONTENT_TEMPLATE_FILEPATH, "UTF-8"),
                     verificationCode, new Date().toString());
             mailService.sendMail(REGISTER_EMAIL_SUBJECT, content, recv);
         } catch (Exception e) {

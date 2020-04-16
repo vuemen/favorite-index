@@ -1,10 +1,7 @@
---创建数据库favorite_index
-DROP TABLE IF NOT EXISTS `favorite_index`;
-CREATE DATABASE `favorite_index`;
+CREATE DATABASE IF NOT EXISTs `favorite_index` default character set = 'utf8';
 
 USE `favorite_index`;
 
---创建表fi_register_info
 DROP TABLE IF EXISTS `fi_register_info`;
 CREATE TABLE `fi_register_info` (
   `EMAIL` varchar(50) NOT NULL COMMENT '邮箱地址',
@@ -14,7 +11,6 @@ CREATE TABLE `fi_register_info` (
   PRIMARY KEY (`EMAIL`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---创建表fi_user_info
 DROP TABLE IF EXISTS `fi_user_info`;
 CREATE TABLE `fi_user_info` (
   `USER_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
