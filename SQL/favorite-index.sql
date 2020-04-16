@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTs `favorite_index` default character set = 'utf8';
+CREATE DATABASE IF NOT EXISTS `favorite_index` default character set = 'utf8';
 
 USE `favorite_index`;
 
