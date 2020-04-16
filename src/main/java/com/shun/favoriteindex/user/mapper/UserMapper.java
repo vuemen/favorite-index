@@ -4,6 +4,8 @@ import com.shun.favoriteindex.user.entity.RegisterUser;
 import com.shun.favoriteindex.user.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
+
 @Mapper
 public interface UserMapper {
 
@@ -34,4 +36,32 @@ public interface UserMapper {
      * @return
      */
     User getUserByEmail(String email);
+
+    /**
+     * 按照条件查找满足条件的注册用户信息数量
+     * @param params
+     * @return
+     */
+    int getRegisterUserInfoCountByMap(Map<String, Object> params);
+
+    /**
+     * 插入用户信息
+     * @param user
+     * @return
+     */
+    int insertUser(User user);
+
+    /**
+     * 更新用户信息
+     * @param user
+     * @return
+     */
+    int updateUser(User user);
+
+    /**
+     * 删除用户信息
+     * @param email
+     * @return
+     */
+    int deleteUser(String email);
 }

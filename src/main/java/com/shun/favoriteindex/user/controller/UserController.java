@@ -1,6 +1,7 @@
 package com.shun.favoriteindex.user.controller;
 
 import com.shun.favoriteindex.response.FiResponse;
+import com.shun.favoriteindex.user.entity.User;
 import com.shun.favoriteindex.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,16 @@ public class UserController {
     public FiResponse sendVerificationCode(String email) {
         try {
             return userService.sendVerificationCode(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return FiResponse.getFailureResponse(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/register")
+    public FiResponse register(User user, String verificationCode) {
+        try {
+            return userService.register(user, verificationCode);
         } catch (Exception e) {
             e.printStackTrace();
             return FiResponse.getFailureResponse(e.getMessage());

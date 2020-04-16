@@ -1,6 +1,8 @@
 package com.shun.favoriteindex.util;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 公共工具类
@@ -9,6 +11,8 @@ public class CommonUtil {
 
     public static final String[] LETTER = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
             "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+
+    public static final String  YMDHMS_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 生成验证码
@@ -45,5 +49,16 @@ public class CommonUtil {
             throw new RuntimeException(e);
         }
         return result.toString();
+    }
+
+    /**
+     * 日期格式化
+     * @param date      日期
+     * @param pattern   格式
+     * @return
+     */
+    public static String dateFormat(Date date, String pattern) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        return dateFormat.format(date);
     }
 }

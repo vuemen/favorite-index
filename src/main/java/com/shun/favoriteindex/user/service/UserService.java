@@ -18,7 +18,8 @@ public interface UserService {
     /**
      * 用户注册
      * @param user
+     * @param verificationCode 验证码
      * @return
      */
-    FiResponse register(User user);
+    FiResponse register(User user, String verificationCode);
 }

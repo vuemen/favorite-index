@@ -57,4 +57,64 @@
         </where>
     </select>
 
+    <select id="getRegisterUserInfoCountByMap" parameterType="HashMap" resultType="int">
+        SELECT COUNT(*) FROM FI_REGISTER_INFO
+        <where>
+            <if test="email != null and email != ''">
+                AND EMAIL = #{email, jdbcType=VARCHAR}
+            </if>
+            <if test="verificationCode != null and verificationCode != ''">
+                AND VERIFICATION_CODE = #{verificationCode, jdbcType=VARCHAR}
+            </if>
+            <if test="currTime != null">
+                AND EFFECT_START_TIME &lt;= #{currTime, jdbcType=NUMERIC}
+                AND EFFECT_END_TIME &gt;= #{currTime, jdbcType=NUMERIC}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertUser">
+        INSERT INTO FI_USER_INFO
+        (EMAIL, PASSWORD, HEAD_IMG, CREATE_TIME, UPDATE_TIME)
+        VALUES
+        (
+            #{email, jdbcType=VARCHAR},
+            #{password, jdbcType=VARCHAR},
+            #{headImg, jdbcType=VARCHAR},
+            #{createTime, jdbcType=VARCHAR},
+            #{updateTime, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateUser">
+        UPDATE FI_USER_INFO
+        <set>
+            <if test="email != null and email != ''">
+                EMAIL = #{email, jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                PASSWORD = #{password, jdbcType=VARCHAR},
+            </if>
+            <if test="headImg != null and headImg != ''">
+                HEAD_IMG =  #{headImg, jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                CREATE_TIME = #{createTime, jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                UPDATE_TIME = #{updateTime, jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+            USER_ID = #{userId, jdbcType=VARCHAR}
+        </where>
+    </update>
+
+    <delete id="deleteUser" parameterType="String">
+        DELETE FROM FI_USER_INFO
+        <where>
+            EMAIL = #{email, jdbcType=VARCHAR}
+        </where>
+    </delete>
+
 </mapper>
