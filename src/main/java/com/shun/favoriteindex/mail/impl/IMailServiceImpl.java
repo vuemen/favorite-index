@@ -73,7 +73,8 @@ public class IMailServiceImpl implements IMailService {
             }
             logger.info(MessageFormat.format
                     ("\n调用邮件发送接口成功，邮件已经发送。收件人：{0}，邮件主题：{1}，附件路径：{2}，邮件内容：{3}",
-                            recvList.toString(), subject, filePaths.toString(), content));
+                            recvList.toString(), subject,
+                            filePaths != null ? filePaths.toString() : "", content));
         } catch (MessagingException e) {
             logger.error("调用邮件发送接口时发生异常！", e);
             e.printStackTrace();
