@@ -2,15 +2,6 @@ CREATE DATABASE IF NOT EXISTS `favorite_index` default character set = 'utf8';
 
 USE `favorite_index`;
 
-DROP TABLE IF EXISTS `fi_register_info`;
-CREATE TABLE `fi_register_info` (
-  `EMAIL` varchar(50) NOT NULL COMMENT '邮箱地址',
-  `VERIFICATION_CODE` char(4) NOT NULL COMMENT '验证码',
-  `EFFECT_START_TIME` bigint(20) NOT NULL COMMENT '有效开始时间',
-  `EFFECT_END_TIME` bigint(20) NOT NULL COMMENT '有效结束时间',
-  PRIMARY KEY (`EMAIL`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `fi_user_info`;
 CREATE TABLE `fi_user_info` (
   `USER_ID` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户ID',

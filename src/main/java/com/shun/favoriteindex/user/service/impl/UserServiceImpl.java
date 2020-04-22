@@ -15,7 +15,6 @@ import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -37,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Value("${fi.user.defaultHeadImg}")
     private String defaultHeadImg;
+
+    @Autowired
+    private Map<String, RegisterUser> registeringUsers;
 
     @Override
     public FiResponse sendVerificationCode(String recv) {
@@ -60,7 +62,7 @@ public class UserServiceImpl implements UserService {
             return FiResponse.getFailureResponse("验证码发送失败：" + e.getMessage());
         }
 
-        //验证码入库
+        //存储验证码
         Long effectStartTime = System.currentTimeMillis();
         Long effectEndTime = effectStartTime + RegisterUser.EFFECT_DURATION_TIME;
         RegisterUser registerUser = new RegisterUser();
@@ -68,9 +70,7 @@ public class UserServiceImpl implements UserService {
         registerUser.setVerificationCode(verificationCode);
         registerUser.setEffectStartTime(effectStartTime);
         registerUser.setEffectEndTime(effectEndTime);
-        if (userMapper.updateRegisterUser(registerUser) <= 0) {
-            userMapper.insertRegisterUser(registerUser);
-        }
+        registeringUsers.put(recv, registerUser);
 
         return FiResponse.getSuccessResponse("验证码发送成功");
     }
@@ -110,15 +110,22 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     private boolean checkVerificationCode(String email, String verificationCode) {
-        if (StringUtils.isEmpty(email) || StringUtils.isEmpty(verificationCode)) {
-            return false;
-        }
+        if (StringUtils.isEmpty(verificationCode) ||
+                !registeringUsers.containsKey(email) ||
+                    registeringUsers.get(email) == null) {
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("email", email);
-        params.put("verificationCode", verificationCode);
-        params.put("currTime", System.currentTimeMillis());
-        return userMapper.getRegisterUserInfoCountByMap(params) > 0;
+            return false;
+        } else {
+            RegisterUser registerUser = registeringUsers.get(email);
+            Long currTime = System.currentTimeMillis();
+            //在有效期内正确的验证码通过校验
+            if (verificationCode.equalsIgnoreCase(registerUser.getVerificationCode()) &&
+                    currTime.compareTo(registerUser.getEffectStartTime()) >= 0 &&
+                        currTime.compareTo(registerUser.getEffectEndTime()) <= 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
