@@ -22,8 +22,6 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private static final String REGISTER_EMAIL_SUBJECT = "favorite-index注册验证码";
 
     private static final String REGISTER_EMAIL_CONTENT_TEMPLATE_FILEPATH =
@@ -47,16 +45,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public FiResponse sendVerificationCode(String recv) {
 
-        logger.info(MessageFormat.format("邮箱{0}申请验证码开始", recv));
-
-        String message = null;
-
         //判断用户是否已经注册
         User user = userMapper.getUserByEmail(recv);
         if (user != null) {
-            message = MessageFormat.format("邮箱{0}已经注册，请尝试登陆或者更改注册邮箱", recv);
-            logger.info(message);
-            return FiResponse.getFailureResponse(message);
+            return FiResponse.getFailureResponse
+                    (MessageFormat.format("邮箱{0}已经注册，请尝试登陆或者更改注册邮箱", recv));
         }
 
         //生成验证码
@@ -67,12 +60,9 @@ public class UserServiceImpl implements UserService {
             String content = MessageFormat.format
                     (CommonUtil.readFileContent(REGISTER_EMAIL_CONTENT_TEMPLATE_FILEPATH, "UTF-8"),
                     verificationCode, new Date().toString());
-            logger.info(MessageFormat.format("发送验证码，邮箱{0}，验证码{1}", recv, verificationCode));
             mailService.sendMail(REGISTER_EMAIL_SUBJECT, content, recv);
         } catch (Exception e) {
-            message = "验证码发送失败";
-            logger.error(message, e);
-            return FiResponse.getFailureResponse(message);
+            return FiResponse.getFailureResponse("验证码发送失败");
         }
 
         //存储验证码
@@ -85,9 +75,7 @@ public class UserServiceImpl implements UserService {
         registerUser.setEffectEndTime(effectEndTime);
         registeringUsers.put(recv, registerUser);
 
-        message = "验证码发送成功";
-        logger.info(message);
-        return FiResponse.getSuccessResponse(message);
+        return FiResponse.getSuccessResponse("验证码发送成功");
     }
 
     @Override
@@ -99,20 +87,14 @@ public class UserServiceImpl implements UserService {
         //判断用户是否已经注册
         User existUser = userMapper.getUserByEmail(email);
         if (existUser != null) {
-            message = MessageFormat.format("邮箱{0}已经注册，请尝试登陆或者更改注册邮箱", email);
-            logger.info(message);
-            return FiResponse.getFailureResponse(message);
+            return FiResponse.getFailureResponse
+                    (MessageFormat.format("邮箱{0}已经注册，请尝试登陆或者更改注册邮箱", email));
         }
 
         //校验验证码
-        logger.info(MessageFormat.format("邮箱{0}，开始注册，用户提供的验证码{1}", email, verificationCode));
         if (!this.checkVerificationCode(email, verificationCode)) {
-            message = "验证码校验失败，可能是验证码错误或验证码过期";
-            logger.info(message);
-            return FiResponse.getFailureResponse(message);
+            return FiResponse.getFailureResponse("验证码校验失败，可能是验证码错误或验证码过期");
         }
-
-        logger.info("验证码校验成功");
 
         //用户信息入库
         user.setHeadImg(defaultHeadImg);
@@ -131,9 +113,7 @@ public class UserServiceImpl implements UserService {
             return FiResponse.getFailureResponse("注册失败：" + e.getMessage());
         }
 
-        message = "注册成功。";
-        logger.info(message);
-        return FiResponse.getSuccessResponse(message);
+        return FiResponse.getSuccessResponse("注册成功。");
     }
 
     /**

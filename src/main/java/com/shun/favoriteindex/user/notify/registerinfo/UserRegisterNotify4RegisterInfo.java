@@ -23,7 +23,7 @@ public class UserRegisterNotify4RegisterInfo implements IUserRegisterNotify {
 
     @Override
     public void successNotify(User user) {
-        logger.info("清除注册用户验证码信息：" + registeringUsers.remove(user.getEmail()).toString());
+        registeringUsers.remove(user.getEmail());
     }
 
 }

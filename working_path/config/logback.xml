@@ -76,30 +76,6 @@
 
     </appender>
 
-    <!-- 用户操作相关日志配置 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 RollingFileAppender -->
-    <appender name="user_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- 支持多JVM同时操作同一个日志文件 -->
-        <prudent>true</prudent>
-        <!-- 最常用的滚动策略，它根据时间来制定滚动策略.既负责滚动也负责出发滚动 -->
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志输出位置 可相对、和绝对路径 -->
-            <fileNamePattern>
-                ${user_log_dir}/%d{yyyy-MM-dd}/user_log%i.log
-            </fileNamePattern>
-            <maxHistory>${maxHistory}</maxHistory>
-            <!-- 按时间回滚的同时，按文件大小来回滚 -->
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>2MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-
-        <!--  日志输出格式 -->
-        <encoder>
-            <pattern>${pattern}</pattern>
-        </encoder>
-
-    </appender>
-
     <!-- 邮件日志配置 滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 RollingFileAppender -->
     <appender name="mail_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 支持多JVM同时操作同一个日志文件 -->
@@ -128,12 +104,6 @@
     <logger name="error">
         <level value="error" />
         <appender-ref ref="error_log" />
-    </logger>
-
-    <!-- 用户操作日志   -->
-    <logger name="com.shun.favoriteindex.user">
-        <level value="info" />
-        <appender-ref ref="user_log" />
     </logger>
 
     <!-- 邮件日志   -->
