@@ -8,8 +8,7 @@ import com.shun.favoriteindex.user.mapper.UserMapper;
 import com.shun.favoriteindex.user.notify.FacadeUserRegisterNotifyService;
 import com.shun.favoriteindex.user.service.UserService;
 import com.shun.favoriteindex.util.CommonUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,6 +22,8 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
 
     private static final String REGISTER_EMAIL_SUBJECT = "favorite-index注册验证码";
+
+    private static final String ENCRYPT_SALT = "no-want-know-my-password";
 
     private static final String REGISTER_EMAIL_CONTENT_TEMPLATE_FILEPATH =
             new StringBuilder(System.getProperty("WORKING_PATH")).append("/emailTemplate/verificationCodeTemplate.html").toString();
@@ -82,8 +83,6 @@ public class UserServiceImpl implements UserService {
     public FiResponse register(User user, String verificationCode) {
 
         String email = user.getEmail();
-        String message = null;
-
         //判断用户是否已经注册
         User existUser = userMapper.getUserByEmail(email);
         if (existUser != null) {
@@ -97,6 +96,7 @@ public class UserServiceImpl implements UserService {
         }
 
         //用户信息入库
+        user.setPassword(encryptPassWord(email, user.getPassword()));
         user.setHeadImg(defaultHeadImg);
         String currTime = CommonUtil.dateFormat(new Date(), CommonUtil.YMDHMS_PATTERN);
         user.setCreateTime(currTime);
@@ -139,6 +139,16 @@ public class UserServiceImpl implements UserService {
             }
         }
         return false;
+    }
+
+    /**
+     * 用户密码加密
+     * @param email
+     * @param password
+     * @return
+     */
+    private String encryptPassWord(String email, String password) {
+        return DigestUtils.md5Hex(email + ENCRYPT_SALT + password);
     }
 
 }
