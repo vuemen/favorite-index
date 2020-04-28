@@ -26,6 +26,11 @@ public class User {
     private String headImg;
 
     /**
+     * 用户设置
+     */
+    private UserSettings settings;
+
+    /**
      * 创建时间
      */
     private String createTime;
@@ -83,6 +88,14 @@ public class User {
         this.updateTime = updateTime;
     }
 
+    public UserSettings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(UserSettings settings) {
+        this.settings = settings;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -92,6 +105,7 @@ public class User {
                 ", headImg='" + headImg + '\'' +
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
+                ", settings=" + settings +
                 '}';
     }
 }
