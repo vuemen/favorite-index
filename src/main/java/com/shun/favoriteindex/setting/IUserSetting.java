@@ -17,4 +17,9 @@ public interface IUserSetting {
      * @return
      */
     Object getUserSettingValue(Long userId);
+
+    /**
+     * 默认设置
+     */
+    void defaultSetting(Long userId);
 }

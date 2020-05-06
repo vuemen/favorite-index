@@ -47,4 +47,9 @@ public class SearchHistoryUserSetting implements IUserSetting {
     public Object getUserSettingValue(Long userId) {
         return null;
     }
+
+    @Override
+    public void defaultSetting(Long userId) {
+
+    }
 }
