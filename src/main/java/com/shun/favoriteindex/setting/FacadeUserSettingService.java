@@ -15,6 +15,13 @@ public interface FacadeUserSettingService {
     UserSettings getUserSettings(Long userId);
 
     /**
+     * 修改设置
+     * @param settingName
+     * @param setting
+     */
+    boolean modifySetting(String settingName, Object setting);
+
+    /**
      * 默认设置
      */
     void defaultSetting(Long userId);

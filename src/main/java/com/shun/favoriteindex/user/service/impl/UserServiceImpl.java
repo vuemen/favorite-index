@@ -1,9 +1,12 @@
 package com.shun.favoriteindex.user.service.impl;
 
+import com.shun.favoriteindex.context.FiContextHolder;
 import com.shun.favoriteindex.mail.IMailService;
 import com.shun.favoriteindex.response.FiResponse;
+import com.shun.favoriteindex.setting.FacadeUserSettingService;
 import com.shun.favoriteindex.user.entity.RegisterUser;
 import com.shun.favoriteindex.user.entity.User;
+import com.shun.favoriteindex.user.entity.UserSettings;
 import com.shun.favoriteindex.user.mapper.UserMapper;
 import com.shun.favoriteindex.user.notify.FacadeUserRegisterNotifyService;
 import com.shun.favoriteindex.user.service.UserService;
@@ -36,6 +39,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private FacadeUserRegisterNotifyService notifyService;
+
+    @Autowired
+    private FacadeUserSettingService facadeUserSettingService;
 
     @Value("${fi.user.defaultHeadImg}")
     private String defaultHeadImg;
@@ -141,6 +147,27 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
+    public FiResponse login(String email, String password) {
+        String errorMessage = "用户名或密码错误";
+        User user = userMapper.getUserByEmail(email);
+        if (user == null) {
+            return FiResponse.getFailureResponse(errorMessage);
+        }
+
+        String passwordMD = encryptPassWord(email, password);
+        if (!user.getPassword().equals(passwordMD)) {
+            return FiResponse.getFailureResponse(errorMessage);
+        }
+
+        //获取完整信息
+        user = getUserFullInfo(email);
+        //设置上下文用户信息
+        FiContextHolder.setUser(user);
+
+        return FiResponse.getSuccessResponse("登陆成功");
+    }
+
     /**
      * 用户密码加密
      * @param email
@@ -151,4 +178,16 @@ public class UserServiceImpl implements UserService {
         return DigestUtils.md5Hex(email + ENCRYPT_SALT + password);
     }
 
+    @Override
+    public User getUserFullInfo(String email) {
+        User user = userMapper.getUserByEmail(email);
+        UserSettings userSettings = facadeUserSettingService.getUserSettings(user.getUserId());
+        user.setSettings(userSettings);
+        return user;
+    }
+
+    @Override
+    public User modifyUser(User user) {
+        return user;
+    }
 }

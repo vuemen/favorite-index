@@ -18,6 +18,8 @@ DROP TABLE IF EXISTS `fi_setting_search_history`;
 CREATE TABLE `fi_setting_search_history` (
   `USER_ID` int(11) NOT NULL COMMENT '用户ID',
   `SWITCH` char(1) NOT NULL COMMENT '开关',
+  `CREATE_TIME` char(19) NOT NULL COMMENT '创建时间',
+  `UPDATE_TIME` char(19) NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`USER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

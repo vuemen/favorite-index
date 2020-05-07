@@ -20,7 +20,7 @@
         </where>
     </select>
 
-    <insert id="insertUser">
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO FI_USER_INFO
         (EMAIL, PASSWORD, HEAD_IMG, CREATE_TIME, UPDATE_TIME)
         VALUES

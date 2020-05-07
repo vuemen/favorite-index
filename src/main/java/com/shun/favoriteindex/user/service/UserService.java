@@ -22,4 +22,26 @@ public interface UserService {
      * @return
      */
     FiResponse register(User user, String verificationCode);
+
+    /**
+     * 登陆
+     * @param email
+     * @param password
+     * @return
+     */
+    FiResponse login(String email, String password);
+
+    /**
+     * 获取用户完整信息
+     * @param email
+     * @return
+     */
+    User getUserFullInfo(String email);
+
+    /**
+     * 修改用户
+     * @param user
+     * @return
+     */
+    User modifyUser(User user);
 }

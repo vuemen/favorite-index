@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shun.favoriteindex.setting.mapper.UserSettingMapper">
+
+    <resultMap id="searchHistorySettingMap" type="com.shun.favoriteindex.setting.searchhistory.SearchHistorySetting">
+        <result property="userId" column="USER_ID" />
+        <result property="hisSwitch" column="SWITCH" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateTime" column="UPDATE_TIME" />
+    </resultMap>
+
+    <select id="getSearchHistorySetting" resultMap="searchHistorySettingMap" parameterType="Long">
+        SELECT USER_ID, SWITCH, CREATE_TIME, UPDATE_TIME
+        FROM FI_SETTING_SEARCH_HISTORY WHERE USER_ID = #{userId, jdbcType=NUMERIC}
+    </select>
+
+    <insert id="insertSearchHistorySetting" useGeneratedKeys="true" keyProperty="hisId">
+        INSERT INTO FI_SETTING_SEARCH_HISTORY
+        (USER_ID, SWITCH, CREATE_TIME, UPDATE_TIME )
+        VALUE
+        (
+            #{userId, jdbcType=NUMERIC},
+            #{hisSwitch, jdbcType=VARCHAR},
+            #{createTime, jdbcType=NUMERIC},
+            #{updateTime, jdbcType=NUMERIC}
+        )
+    </insert>
+
+    <update id="updateSearchHistorySetting">
+        UPDATE FI_SETTING_SEARCH_HISTORY
+        <set>
+            <if test="hisSwitch != null and hisSwitch != ''">
+                AND hisSwitch = #{hisSwitch, jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                AND CREATE_TIME = #{createTime, jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                AND UPDATE_TIME = #{updateTime, jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE USER_ID = #{userId, jdbcType=NUMERIC}
+    </update>
+
+</mapper>

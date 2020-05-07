@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shun.favoriteindex.searchhistory.mapper.SearchHistoryMapper">
+
+    <resultMap id="searchHistoryMap" type="com.shun.favoriteindex.searchhistory.entity.SearchHistory">
+        <result property="hisId" column="HIS_ID" />
+        <result property="userId" column="USER_ID" />
+        <result property="history" column="HISTORY" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateTime" column="UPDATE_TIME" />
+    </resultMap>
+
+    <select id="getAllSearchHistory" resultMap="searchHistoryMap" parameterType="HashMap">
+        SELECT HIS_ID, USER_ID, HISTORY, CREATE_TIME, UPDATE_TIME FROM FI_SEARCH_HISTORY
+        <where>
+            <if test="userId != null">
+                AND USER_ID = #{userId, jdbcType=NUMERIC}
+            </if>
+            <if test="start != null">
+
+            </if>
+            <if test="end != null">
+
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSearchHistory">
+        INSERT INTO FI_SEARCH_HISTORY
+        (
+            USER_ID, HISTORY, CREATE_TIME, UPDATE_TIME
+        )
+        VALUES
+        (
+            #{userId, jdbcType=NUMERIC},
+            #{history, jdbcType=VARCHAR},
+            #{createTime, jdbcType=VARCHAR},
+            #{updateTime, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateSearchHistory">
+        UPDATE FI_SEARCH_HISTORY
+        <set>
+            <if test="userId != null">
+                AND USER_ID = #{userId, jdbcType=NUMERIC},
+            </if>
+            <if test="history != null and history != ''">
+                AND HISTORY = #{history, jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                AND CREATE_TIME = #{createTime, jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                AND UPDATE_TIME = #{updateTime, jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE HIS_ID = #{hisId, jdbcType=NUMERIC}
+    </update>
+
+    <delete id="deleteSearchHistoryByUserId" parameterType="Long">
+        DELETE FROM FI_SEARCH_HISTORY WHERE USER_ID = #{userId, jdbcType=NUMERIC}
+    </delete>
+
+    <delete id="deleteSearchHistoryByHisId" parameterType="Long">
+        DELETE FROM FI_SEARCH_HISTORY WHERE USER_ID = #{hisId, jdbcType=NUMERIC}
+    </delete>
+
+</mapper>

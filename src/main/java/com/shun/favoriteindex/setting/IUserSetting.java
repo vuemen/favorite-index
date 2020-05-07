@@ -19,6 +19,12 @@ public interface IUserSetting {
     Object getUserSettingValue(Long userId);
 
     /**
+     * 修改用户设置
+     * @param setting
+     */
+    void modifyUserSetting(Object setting);
+
+    /**
      * 默认设置
      */
     void defaultSetting(Long userId);
