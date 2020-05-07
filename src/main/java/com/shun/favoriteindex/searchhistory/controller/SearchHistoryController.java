@@ -22,7 +22,7 @@ public class SearchHistoryController {
     @RequestMapping("/getAllSearchHistory")
     public FiResponse getAllSearchHistory(HttpRequest request) {
         try {
-            //组装参数
+            //todo 组装参数
             Map<String, Object> params = new HashMap<>();
             return FiResponse.getSuccessResponse(searchHistoryService.getAllSearchHistory(params));
         } catch (Exception e) {

@@ -3,10 +3,8 @@ package com.shun.favoriteindex.user.service.impl;
 import com.shun.favoriteindex.context.FiContextHolder;
 import com.shun.favoriteindex.mail.IMailService;
 import com.shun.favoriteindex.response.FiResponse;
-import com.shun.favoriteindex.setting.FacadeUserSettingService;
 import com.shun.favoriteindex.user.entity.RegisterUser;
 import com.shun.favoriteindex.user.entity.User;
-import com.shun.favoriteindex.user.entity.UserSettings;
 import com.shun.favoriteindex.user.mapper.UserMapper;
 import com.shun.favoriteindex.user.notify.FacadeUserRegisterNotifyService;
 import com.shun.favoriteindex.user.service.UserService;
@@ -39,9 +37,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private FacadeUserRegisterNotifyService notifyService;
-
-    @Autowired
-    private FacadeUserSettingService facadeUserSettingService;
 
     @Value("${fi.user.defaultHeadImg}")
     private String defaultHeadImg;
@@ -104,6 +99,8 @@ public class UserServiceImpl implements UserService {
         //用户信息入库
         user.setPassword(encryptPassWord(email, user.getPassword()));
         user.setHeadImg(defaultHeadImg);
+        user.setHisSwitch(true);
+        user.setBgiFlowSystem(true);
         String currTime = CommonUtil.dateFormat(new Date(), CommonUtil.YMDHMS_PATTERN);
         user.setCreateTime(currTime);
         user.setUpdateTime(currTime);
@@ -160,8 +157,6 @@ public class UserServiceImpl implements UserService {
             return FiResponse.getFailureResponse(errorMessage);
         }
 
-        //获取完整信息
-        user = getUserFullInfo(email);
         //设置上下文用户信息
         FiContextHolder.setUser(user);
 
@@ -179,15 +174,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserFullInfo(String email) {
-        User user = userMapper.getUserByEmail(email);
-        UserSettings userSettings = facadeUserSettingService.getUserSettings(user.getUserId());
-        user.setSettings(userSettings);
-        return user;
-    }
-
-    @Override
-    public User modifyUser(User user) {
-        return user;
+    public FiResponse modifyUser(User user) {
+        String currTime = CommonUtil.dateFormat(new Date(), CommonUtil.YMDHMS_PATTERN);
+        user.setUpdateTime(currTime);
+        user.setCreateTime(null);
+        return FiResponse.getSuccessResponse(userMapper.updateUser(user));
     }
 }

@@ -21,14 +21,24 @@ public class User {
     private String password;
 
     /**
-     * 邮箱链接
+     * 头像链接
      */
     private String headImg;
 
     /**
-     * 用户设置
+     * 搜索历史开关
      */
-    private UserSettings settings;
+    private boolean hisSwitch;
+
+    /**
+     * 背景图是否跟随系统
+     */
+    private boolean bgiFlowSystem;
+
+    /**
+     * 背景图链接 背景图是否跟随系统为否时使用
+     */
+    private String bgiLink;
 
     /**
      * 创建时间
@@ -72,6 +82,30 @@ public class User {
         this.headImg = headImg;
     }
 
+    public boolean isHisSwitch() {
+        return hisSwitch;
+    }
+
+    public void setHisSwitch(boolean hisSwitch) {
+        this.hisSwitch = hisSwitch;
+    }
+
+    public boolean isBgiFlowSystem() {
+        return bgiFlowSystem;
+    }
+
+    public void setBgiFlowSystem(boolean bgiFlowSystem) {
+        this.bgiFlowSystem = bgiFlowSystem;
+    }
+
+    public String getBgiLink() {
+        return bgiLink;
+    }
+
+    public void setBgiLink(String bgiLink) {
+        this.bgiLink = bgiLink;
+    }
+
     public String getCreateTime() {
         return createTime;
     }
@@ -88,14 +122,6 @@ public class User {
         this.updateTime = updateTime;
     }
 
-    public UserSettings getSettings() {
-        return settings;
-    }
-
-    public void setSettings(UserSettings settings) {
-        this.settings = settings;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -103,9 +129,11 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", headImg='" + headImg + '\'' +
+                ", hisSwitch=" + hisSwitch +
+                ", bgiFlowSystem=" + bgiFlowSystem +
+                ", bgiLink='" + bgiLink + '\'' +
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
-                ", settings=" + settings +
                 '}';
     }
 }

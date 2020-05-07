@@ -50,4 +50,14 @@ public class UserController {
             return FiResponse.getFailureResponse(e.getMessage());
         }
     }
+
+    @RequestMapping("/modifyUser")
+    public FiResponse modifyUser(User user) {
+        try {
+            return userService.modifyUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return FiResponse.getFailureResponse(e.getMessage());
+        }
+    }
 }

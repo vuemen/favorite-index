@@ -9,12 +9,19 @@
         <result property="email" column="EMAIL" />
         <result property="password" column="PASSWORD" />
         <result property="headImg" column="HEAD_IMG" />
+        <result property="hisSwitch" column="HIS_SWITCH" />
+        <result property="bgiFlowSystem" column="BGI_FLOW_SYSTEM" />
+        <result property="bgiLink" column="BGI_LINK" />
         <result property="createTime" column="CREATE_TIME" />
         <result property="updateTime" column="UPDATE_TIME" />
     </resultMap>
 
+    <sql id="baseColumn">
+        USER_ID, EMAIL, PASSWORD, HEAD_IMG, HIS_SWITCH, BGI_FLOW_SYSTEM, BGI_LINK, CREATE_TIME, UPDATE_TIME
+    </sql>
+
     <select id="getUserByEmail" resultMap="userMap" parameterType="String">
-        SELECT USER_ID, EMAIL, PASSWORD, HEAD_IMG, CREATE_TIME, UPDATE_TIME FROM FI_USER_INFO
+        SELECT <include refid="baseColumn"></include> FROM FI_USER_INFO
         <where>
             EMAIL = #{email, jdbcType=VARCHAR}
         </where>
@@ -22,12 +29,17 @@
 
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO FI_USER_INFO
-        (EMAIL, PASSWORD, HEAD_IMG, CREATE_TIME, UPDATE_TIME)
+        (
+            EMAIL, PASSWORD, HEAD_IMG, HIS_SWITCH, BGI_FLOW_SYSTEM, BGI_LINK, CREATE_TIME, UPDATE_TIME
+        )
         VALUES
         (
             #{email, jdbcType=VARCHAR},
             #{password, jdbcType=VARCHAR},
             #{headImg, jdbcType=VARCHAR},
+            #{hisSwitch, jdbcType=VARCHAR},
+            #{bgiFlowSystem, jdbcType=VARCHAR},
+            #{bgiLink, jdbcType=VARCHAR},
             #{createTime, jdbcType=VARCHAR},
             #{updateTime, jdbcType=VARCHAR}
         )
@@ -44,6 +56,15 @@
             </if>
             <if test="headImg != null and headImg != ''">
                 HEAD_IMG =  #{headImg, jdbcType=VARCHAR},
+            </if>
+            <if test="hisSwitch != null and hisSwitch != ''">
+                HIS_SWITCH =  #{hisSwitch, jdbcType=VARCHAR},
+            </if>
+            <if test="bgiFlowSystem != null and bgiFlowSystem != ''">
+                BGI_FLOW_SYSTEM =  #{bgiFlowSystem, jdbcType=VARCHAR},
+            </if>
+            <if test="bgiLink != null and bgiLink != ''">
+                BGI_LINK, =  #{bgiLink, jdbcType=VARCHAR},
             </if>
             <if test="createTime != null and createTime != ''">
                 CREATE_TIME = #{createTime, jdbcType=VARCHAR},

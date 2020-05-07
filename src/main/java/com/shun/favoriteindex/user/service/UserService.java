@@ -32,16 +32,9 @@ public interface UserService {
     FiResponse login(String email, String password);
 
     /**
-     * 获取用户完整信息
-     * @param email
-     * @return
-     */
-    User getUserFullInfo(String email);
-
-    /**
      * 修改用户
      * @param user
      * @return
      */
-    User modifyUser(User user);
+    FiResponse modifyUser(User user);
 }

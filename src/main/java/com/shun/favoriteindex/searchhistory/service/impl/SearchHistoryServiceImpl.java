@@ -5,11 +5,7 @@ import com.shun.favoriteindex.response.FiResponse;
 import com.shun.favoriteindex.searchhistory.entity.SearchHistory;
 import com.shun.favoriteindex.searchhistory.mapper.SearchHistoryMapper;
 import com.shun.favoriteindex.searchhistory.service.SearchHistoryService;
-import com.shun.favoriteindex.setting.mapper.UserSettingMapper;
-import com.shun.favoriteindex.setting.searchhistory.SearchHistorySetting;
-import com.shun.favoriteindex.setting.searchhistory.UserSetting4SearchHistory;
 import com.shun.favoriteindex.user.entity.User;
-import com.shun.favoriteindex.user.entity.UserSettings;
 import com.shun.favoriteindex.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +22,11 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
 
     @Override
     public List<SearchHistory> getAllSearchHistory(Map<String, Object> params) {
+        User user = FiContextHolder.getCurrUser();
+        //开关未开启
+        if (!user.isHisSwitch()) {
+            return null;
+        }
         return searchHistoryMapper.getAllSearchHistory(params);
     }
 
@@ -33,10 +34,8 @@ public class SearchHistoryServiceImpl implements SearchHistoryService {
     public FiResponse addSearchHistory(SearchHistory searchHistory) {
         //获取当前用户，查看是否开启记录历史的开关
         User user = FiContextHolder.getCurrUser();
-        UserSettings settings = user.getSettings();
-        SearchHistorySetting setting = (SearchHistorySetting) settings.getSettings().get(UserSetting4SearchHistory.SETTING_NAME);
         //开关未开启
-        if (!setting.isHisSwitch()) {
+        if (!user.isHisSwitch()) {
             return FiResponse.getFailureResponse("搜索历史功能已关闭");
         }
         String currTime = CommonUtil.dateFormat(new Date(), CommonUtil.YMDHMS_PATTERN);

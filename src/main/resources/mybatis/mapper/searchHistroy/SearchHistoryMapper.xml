@@ -12,8 +12,12 @@
         <result property="updateTime" column="UPDATE_TIME" />
     </resultMap>
 
+    <sql id="baseColumn">
+        HIS_ID, USER_ID, HISTORY, CREATE_TIME, UPDATE_TIME
+    </sql>
+
     <select id="getAllSearchHistory" resultMap="searchHistoryMap" parameterType="HashMap">
-        SELECT HIS_ID, USER_ID, HISTORY, CREATE_TIME, UPDATE_TIME FROM FI_SEARCH_HISTORY
+        SELECT <include refid="baseColumn"></include> FROM FI_SEARCH_HISTORY
         <where>
             <if test="userId != null">
                 AND USER_ID = #{userId, jdbcType=NUMERIC}
