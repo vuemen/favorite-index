@@ -34,7 +34,7 @@ public class SearchHistoryController {
     @RequestMapping("addSearchHistory")
     public FiResponse addSearchHistory(SearchHistory searchHistory) {
         try {
-            return FiResponse.getSuccessResponse(searchHistoryService.addSearchHistory(searchHistory));
+            return searchHistoryService.addSearchHistory(searchHistory);
         } catch (Exception e) {
             e.printStackTrace();
             return FiResponse.getFailureResponse(e.getMessage());
@@ -44,7 +44,7 @@ public class SearchHistoryController {
     @RequestMapping("delSearchHistoryByHisId")
     public FiResponse delSearchHistoryByHisId(Long hisId) {
         try {
-            return FiResponse.getSuccessResponse(searchHistoryService.delSearchHistoryByHisId(hisId));
+            return searchHistoryService.delSearchHistoryByHisId(hisId);
         } catch (Exception e) {
             e.printStackTrace();
             return FiResponse.getFailureResponse(e.getMessage());
@@ -54,7 +54,7 @@ public class SearchHistoryController {
     @RequestMapping("delSearchHistoryByUserId")
     public FiResponse delSearchHistoryByUserId(Long userId) {
         try {
-            return FiResponse.getSuccessResponse(searchHistoryService.delSearchHistoryByUserId(userId));
+            return searchHistoryService.delSearchHistoryByUserId(userId);
         } catch (Exception e) {
             e.printStackTrace();
             return FiResponse.getFailureResponse(e.getMessage());

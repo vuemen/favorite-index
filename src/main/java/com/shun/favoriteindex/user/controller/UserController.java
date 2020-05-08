@@ -41,10 +41,10 @@ public class UserController {
     @RequestMapping("/login")
     public FiResponse login(String email, String password, HttpServletRequest request) {
         try {
-            userService.login(email, password);
+            FiResponse response = userService.login(email, password);
             request.getSession().setAttribute("user", FiContextHolder.getCurrUser());
-            FiContextHolder.setSessionId(request.getRequestedSessionId());
-            return FiResponse.getSuccessResponse("登陆成功");
+            FiContextHolder.setSessionId(request.getSession().getId());
+            return response;
         } catch (Exception e) {
             e.printStackTrace();
             return FiResponse.getFailureResponse(e.getMessage());

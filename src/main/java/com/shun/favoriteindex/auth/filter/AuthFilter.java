@@ -2,7 +2,8 @@ package com.shun.favoriteindex.auth.filter;
 
 import com.alibaba.druid.util.PatternMatcher;
 import com.alibaba.druid.util.ServletPathMatcher;
-import org.springframework.http.HttpRequest;
+import com.shun.favoriteindex.context.FiContextHolder;
+import com.shun.favoriteindex.user.entity.User;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -32,10 +33,12 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         if (!(servletRequest instanceof HttpServletRequest)) {
-            //todo 设置响应信息
+            //todo 未登录应该有一个特殊的状态码
             if (servletResponse instanceof HttpServletResponse) {
                 HttpServletResponse response = (HttpServletResponse) servletResponse;
-                response.setStatus(888);
+                response.setHeader("Content-type", "text/html;charset=UTF-8");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write("{'msg' : '未登录'}");
             }
             return;
         }
@@ -50,14 +53,18 @@ public class AuthFilter implements Filter {
 
         //是否已经登录
         Object user = ((HttpServletRequest) servletRequest).getSession().getAttribute("user");
-        if (user == null) {
-            //todo 设置响应信息
+        if (user == null || !User.class.isInstance(user)) {
+            //todo 未登录应该有一个特殊的状态码
             if (servletResponse instanceof HttpServletResponse) {
                 HttpServletResponse response = (HttpServletResponse) servletResponse;
-                response.setStatus(888);
+                response.setHeader("Content-type", "text/html;charset=UTF-8");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write("{'msg' : '未登录'}");
             }
             return;
         }
+        FiContextHolder.setUser((User) user);
+        FiContextHolder.setSessionId(request.getSession().getId());
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
