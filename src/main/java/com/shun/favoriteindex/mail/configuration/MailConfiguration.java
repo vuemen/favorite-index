@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * 邮件发送配置
+ * 邮件发送配置,发送邮件服务
  */
 @Configuration
 @EnableConfigurationProperties(MailProperties.class)
@@ -26,7 +26,7 @@ public class MailConfiguration {
 
     private void applyProperties(MailProperties properties, JavaMailSenderImpl sender) {
         sender.setHost(properties.getHost());
-        if (properties.getPort() != null) {
+        if (null != properties.getPort()) {
             sender.setPort(properties.getPort());
         }
         sender.setUsername(properties.getUsername());
